@@ -3,6 +3,16 @@ My first decentralized app, built as part of the LearnWeb3.io beginner track. A 
 
 ---
 
+## Contract Information
+- **Contract Address:** `0xD2f0C7BF71b3F8219827680D1b0cB6826AA408a0`
+- **Network:** zkSync Sepolia Testnet
+- **RPC URL:** https://sepolia.era.zksync.dev
+- **Chain ID:** 300
+- **Currency Symbol:** ETH
+- **Block Explorer:** [zkSync Sepolia Explorer](https://sepolia.explorer.zksync.io)
+
+---
+
 ## How to Run and Test This Project
 
 ### Prerequisites
