@@ -17,6 +17,24 @@ out/
 .env.temp
 .env.local
 .env.development.local
+
+# Unnecessary folders
+tmp/
+temp/
+logs/
+backup/
+bak/
+__pycache__/
+.cache/
+.history/
+.DS_Store/
+
+# Test contracts
+test/
+tests/
+contracts/test/
+contracts/tests/
+remix-tests/
 .env.test.local
 .env.production.local
 
