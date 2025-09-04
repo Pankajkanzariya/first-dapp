@@ -11,91 +11,131 @@
         }
 
         div {
-            width:20%;
+            width: 20%;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-
         }
 
         button {
             width: 100%;
             margin: 10px 0px 5px 0px;
-
         }
     </style>
 </head>
 <body>
     <script>
-        var getMood
-        var setMood
+        var getMood;
+        var setMood;
     </script>
-    <script type="module">
-        import {
-            createWalletClient,
-            custom,
-            getContract
-        } from "https://esm.sh/viem";
-        import {sepolia} from "https://esm.sh/viem/chains";
 
+    <script type="module">
+        import { createWalletClient, custom, getContract, defineChain } from "https://esm.sh/viem";
+        import { chainConfig } from "https://esm.sh/viem/zksync";
+
+        // Define zkSync Sepolia Testnet properly with chain ID 300
+        const zksyncSepoliaTestnet = defineChain({
+            ...chainConfig,
+            id: 300,
+            name: "zkSync Sepolia Testnet",
+            network: "zkSync Sepolia Testnet",
+            rpcUrls: {
+                default: { http: ["https://sepolia.era.zksync.dev"] }
+            },
+            blockExplorers: {
+                default: {
+                    name: "zkSync Explorer",
+                    url: "https://sepolia.explorer.zksync.io"
+                }
+            }
+        });
+
+        // Create wallet client for zkSync Sepolia
         const walletClient = createWalletClient({
-            chain: sepolia,
+            chain: zksyncSepoliaTestnet,
             transport: custom(window.ethereum),
         });
-        const account = await walletClient.requestAddresses();
 
-        const [address] = account;
+        // Prompt MetaMask to switch to zkSync Sepolia Testnet
+        if (window.ethereum) {
+            try {
+                await window.ethereum.request({
+                    method: "wallet_switchEthereumChain",
+                    params: [{ chainId: "0x12c" }], // 300 in hex
+                });
+            } catch (switchError) {
+                // If the chain is not added, request to add it
+                if (switchError.code === 4902) {
+                    await window.ethereum.request({
+                        method: "wallet_addEthereumChain",
+                        params: [{
+                            chainId: "0x12c",
+                            chainName: "zkSync Sepolia Testnet",
+                            rpcUrls: ["https://sepolia.era.zksync.dev"],
+                            blockExplorerUrls: ["https://sepolia.explorer.zksync.io"],
+                            nativeCurrency: { name: "ETH", symbol: "ETH", decimals: 18 }
+                        }]
+                    });
+                } else {
+                    alert("Please switch your wallet to zkSync Sepolia Testnet.");
+                    throw switchError;
+                }
+            }
+        }
 
-        const MoodContractAddress =  "0xd9145CCE52D386f254917e481eB44e9943F39138";
+        // Request accounts from MetaMask
+        const accounts = await walletClient.requestAddresses();
+        const [address] = accounts;
+
+        // Your deployed contract address and ABI
+        const MoodContractAddress = "0xD2f0C7BF71b3F8219827680D1b0cB6826AA408a0";
         const MoodContractABI = [
-                                    {
-                                        "inputs": [],
-                                        "name": "getMood",
-                                        "outputs": [
-                                            {
-                                                "internalType": "string",
-                                                "name": "",
-                                                "type": "string"
-                                            }
-                                        ],
-                                        "stateMutability": "view",
-                                        "type": "function"
-                                    },
-                                    {
-                                        "inputs": [
-                                            {
-                                                "internalType": "string",
-                                                "name": "_mood",
-                                                "type": "string"
-                                            }
-                                        ],
-                                        "name": "setMood",
-                                        "outputs": [],
-                                        "stateMutability": "nonpayable",
-                                        "type": "function"
-                                    }
-                                ]
+            {
+                "inputs": [],
+                "name": "getMood",
+                "outputs": [{"internalType": "string","name": "","type": "string"}],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [{"internalType": "string","name": "_mood","type": "string"}],
+                "name": "setMood",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            }
+        ];
+
         const MoodContractInstance = getContract({
             address: MoodContractAddress,
             abi: MoodContractABI,
             client: walletClient,
         });
 
-        window.getMood = async function() {
-            const mood = await MoodContractInstance.read.getMood();
-            document.getElementById("showmood").innerText = 'your mood: ${mood}';
-            
+        // Read function
+        getMood = async function() {
+            try {
+                const mood = await MoodContractInstance.read.getMood();
+                document.getElementById("showmood").innerText = `Your mood: ${mood}`;
+            } catch (err) {
+                console.error(err);
+                alert("Failed to read mood. Make sure your wallet is on zkSync Sepolia.");
+            }
         }
 
-        window.setMood = async function() {
-            const mood = document.getElementById("mood").value;
-            await MoodContractInstance.write.setMood([mood],{
-                account: address
-            })
-            
+        // Write function
+        setMood = async function() {
+            try {
+                const mood = document.getElementById("mood").value;
+                await MoodContractInstance.write.setMood([mood], { account: address });
+                alert("Mood updated successfully!");
+            } catch (err) {
+                console.error(err);
+                alert("Failed to set mood. Make sure your wallet is on zkSync Sepolia.");
+            }
         }
-
     </script>
+
     <div>
         <h1>This is my first Dapp</h1>
         <p>Here we can set or get mood</p>

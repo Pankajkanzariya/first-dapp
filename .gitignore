@@ -10,13 +10,8 @@ build/
 out/
 
 # Environment files
-.env
-.env.example
-.env.backup
-.env.old
-.env.temp
-.env.local
-.env.development.local
+.env*
+.env.*
 
 # Unnecessary folders
 tmp/
@@ -35,8 +30,6 @@ tests/
 contracts/test/
 contracts/tests/
 remix-tests/
-.env.test.local
-.env.production.local
 
 # IDE files
 .vscode/
@@ -69,3 +62,55 @@ typechain/
 
 # Others
 *.secret
+
+# Frontend build
+build/
+dist/
+*.map
+
+# Dependency lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# System files
+*.orig
+*.rej
+
+# Temporary files
+*.tmp
+*.temp
+
+# Editor swap files
+*.swp
+*.swo
+
+# MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# Logs
+*.log
+
+# Backup files
+*.bak
+*.backup
+
+# Other common files
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
+
+# Deployment files
+.deploys/
+
+# Remove unnecessary files for a clean, professional repo
