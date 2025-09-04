@@ -26,12 +26,32 @@
     </style>
 </head>
 <body>
+    <script>
+        var getMood
+        var setMood
+    </script>
+    <script type="module">
+        import {
+            createWalletClient,
+            custom,
+            getContract
+        } from "https://esm.sh/viem";
+        import {sepolia} from "https://esm.sh/viem/chains";
+
+        const walletClient = createWalletClient({
+            chain: sepolia,
+            transport: custom(window.ethereum),
+        });
+        const account = await walletClient.requestAddresses();
+
+        const [address] = account;
+    </script>
     <div>
-        <h1></h1> This is my first Dapp</h1>
-        <p>Here we can set or get  mood </p>
+        <h1>This is my first Dapp</h1>
+        <p>Here we can set or get mood</p>
         <label for="mood">Mood:</label> <br>
         <input type="text" id="mood" placeholder="Enter your mood">
-        <button onclick=""getMood()">Get Mood</button>
+        <button onclick="getMood()">Get Mood</button>
         <button onclick="setMood()">Set Mood</button>
         <p id="showmood"></p>
     </div>
