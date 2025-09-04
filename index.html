@@ -80,6 +80,21 @@
             abi: MoodContractABI,
             client: walletClient,
         });
+
+        getMood = async function() {
+            const mood = await MoodContractInstance.read.getMood();
+            document.getElementById("showmood").innerText = 'your mood: ${mood}';
+            
+        }
+
+        setMood = async function() {
+            const mood = document.getElementById("mood").value;
+            await MoodContractInstance.write.setMood([mood],{
+                account: address
+            })
+            
+        }
+
     </script>
     <div>
         <h1>This is my first Dapp</h1>
