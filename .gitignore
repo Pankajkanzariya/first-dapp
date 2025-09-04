@@ -1,0 +1,53 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build output
+dist/
+build/
+out/
+
+# Environment files
+.env
+.env.example
+.env.backup
+.env.old
+.env.temp
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Misc
+*.log
+*.tmp
+*.swp
+*.bak
+*.pid
+*.seed
+*.tgz
+
+# Coverage
+coverage/
+*.lcov
+
+# Ethereum/Hardhat/Truffle
+artifacts/
+cache/
+typechain/
+*.tsbuildinfo
+
+# Others
+*.secret

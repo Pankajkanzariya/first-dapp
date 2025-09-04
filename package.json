@@ -1,9 +1,10 @@
 {
   "name": "first-dapp",
   "version": "1.0.0",
-  "description": "My first decentralized app, built as part of the LearnWeb3.io beginner track. A simple Solidity smart contract deployed to a testnet with a basic frontend using Ethers.js, allowing wallet connections and on‑chain interactions — my first step into Web3 development.",
+  "description": "My first decentralized app, built as part of the LearnWeb3.io beginner track. A simple Solidity smart contract deployed to a testnet with a basic frontend using Ethers.js, allowing wallet connections and on-chain interactions — my first step into Web3 development.",
   "main": "index.js",
   "scripts": {
+    "start": "lite-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/Pankajkanzariya/first-dapp/issues"
   },
-  "homepage": "https://github.com/Pankajkanzariya/first-dapp#readme"
+  "homepage": "https://github.com/Pankajkanzariya/first-dapp#readme",
+  "devDependencies": {
+    "lite-server": "^2.6.1"
+  }
 }
