@@ -81,13 +81,13 @@
             client: walletClient,
         });
 
-        getMood = async function() {
+        window.getMood = async function() {
             const mood = await MoodContractInstance.read.getMood();
             document.getElementById("showmood").innerText = 'your mood: ${mood}';
             
         }
 
-        setMood = async function() {
+        window.setMood = async function() {
             const mood = document.getElementById("mood").value;
             await MoodContractInstance.write.setMood([mood],{
                 account: address
